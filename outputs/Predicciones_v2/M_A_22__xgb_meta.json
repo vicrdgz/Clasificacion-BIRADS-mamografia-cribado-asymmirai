@@ -1,0 +1,39 @@
+{
+  "config": "M_A_22",
+  "head": "xgb",
+  "level": "mama",
+  "oof_auc": 0.6244948279909497,
+  "test_auc": 0.6813346510874129,
+  "mean_fold_auc": 0.6526566217909174,
+  "std_fold_auc": 0.027035575740710915,
+  "fold_aucs": [
+    0.6728667848434157,
+    0.6453282733711165,
+    0.6939513477975017,
+    0.6224336088016711,
+    0.6287030941408822
+  ],
+  "fold_hps": [
+    {
+      "max_depth": 3,
+      "learning_rate": 0.05
+    },
+    {
+      "max_depth": 5,
+      "learning_rate": 0.05
+    },
+    {
+      "max_depth": 3,
+      "learning_rate": 0.05
+    },
+    {
+      "max_depth": 3,
+      "learning_rate": 0.05
+    },
+    {
+      "max_depth": 5,
+      "learning_rate": 0.1
+    }
+  ],
+  "elapsed_sec": 402.9795320034027
+}

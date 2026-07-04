@@ -1,0 +1,39 @@
+{
+  "config": "M_AB_22",
+  "head": "histgb",
+  "level": "mama",
+  "oof_auc": 0.6106891516839623,
+  "test_auc": 0.6579923378976509,
+  "mean_fold_auc": 0.6491251883661434,
+  "std_fold_auc": 0.028479605876605273,
+  "fold_aucs": [
+    0.6764204096239149,
+    0.6176399603858221,
+    0.6647442139165606,
+    0.6117103171630922,
+    0.6751110407413272
+  ],
+  "fold_hps": [
+    {
+      "max_leaf_nodes": 31,
+      "learning_rate": 0.1
+    },
+    {
+      "max_leaf_nodes": 63,
+      "learning_rate": 0.1
+    },
+    {
+      "max_leaf_nodes": 31,
+      "learning_rate": 0.05
+    },
+    {
+      "max_leaf_nodes": 31,
+      "learning_rate": 0.05
+    },
+    {
+      "max_leaf_nodes": 63,
+      "learning_rate": 0.1
+    }
+  ],
+  "elapsed_sec": 709.7922406196594
+}

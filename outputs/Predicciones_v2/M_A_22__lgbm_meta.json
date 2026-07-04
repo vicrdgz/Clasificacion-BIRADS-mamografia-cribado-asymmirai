@@ -1,0 +1,39 @@
+{
+  "config": "M_A_22",
+  "head": "lgbm",
+  "level": "mama",
+  "oof_auc": 0.604696513867777,
+  "test_auc": 0.6415204119044203,
+  "mean_fold_auc": 0.610963713698178,
+  "std_fold_auc": 0.04086858240642719,
+  "fold_aucs": [
+    0.5977829376076698,
+    0.5851413543721237,
+    0.6763455088674173,
+    0.6357742657645287,
+    0.559774501879151
+  ],
+  "fold_hps": [
+    {
+      "num_leaves": 63,
+      "learning_rate": 0.1
+    },
+    {
+      "num_leaves": 63,
+      "learning_rate": 0.1
+    },
+    {
+      "num_leaves": 63,
+      "learning_rate": 0.05
+    },
+    {
+      "num_leaves": 63,
+      "learning_rate": 0.1
+    },
+    {
+      "num_leaves": 31,
+      "learning_rate": 0.05
+    }
+  ],
+  "elapsed_sec": 229.5471694469452
+}

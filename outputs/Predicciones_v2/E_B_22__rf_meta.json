@@ -1,0 +1,39 @@
+{
+  "config": "E_B_22",
+  "head": "rf",
+  "level": "estudio",
+  "oof_auc": 0.6466623304752801,
+  "test_auc": 0.5813283554572272,
+  "mean_fold_auc": 0.6499601711300429,
+  "std_fold_auc": 0.017978900380440786,
+  "fold_aucs": [
+    0.6754324513660613,
+    0.6599665894271703,
+    0.6219575721650411,
+    0.6409710621328879,
+    0.6514731805590531
+  ],
+  "fold_hps": [
+    {
+      "n_estimators": 500,
+      "max_depth": 20
+    },
+    {
+      "n_estimators": 500,
+      "max_depth": 20
+    },
+    {
+      "n_estimators": 300,
+      "max_depth": null
+    },
+    {
+      "n_estimators": 300,
+      "max_depth": 20
+    },
+    {
+      "n_estimators": 500,
+      "max_depth": null
+    }
+  ],
+  "elapsed_sec": 49.036510944366455
+}

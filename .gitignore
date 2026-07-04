@@ -1,0 +1,80 @@
+# =============================================================
+# .gitignore — TFM BI-RADS
+# =============================================================
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+.eggs/
+build/
+dist/
+.installed.cfg
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+
+# --- Entornos virtuales ---
+venv/
+env/
+ENV/
+.venv/
+.env
+
+# --- Jupyter ---
+.ipynb_checkpoints/
+*/.ipynb_checkpoints/
+profile_default/
+ipython_config.py
+
+# --- IDE / editores ---
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# --- Datos NO incluidos en el repositorio ---
+# Datasets originales y features extraídas (demasiado grandes para git)
+Data/
+data/
+AsymMirai/snapshots/*.pt
+outputs/Features/
+*.dcm
+*.dicom
+
+# Snapshots de modelos pre-entrenados pesados
+*.pt
+*.pth
+*.ckpt
+*.bin
+*.safetensors
+
+# --- Logs y archivos temporales ---
+*.log
+*.tmp
+*.bak
+*_ERROR.txt
+
+# --- Notebooks de scratch (opcional, descomenta si los tienes) ---
+# notebooks/scratch_*.ipynb
+# notebooks/wip_*.ipynb
+
+# --- macOS / Windows / Linux ---
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# --- Folders -- #
+Data/
+AsymMirai/
+
+# --- Files -- #
+*.zip

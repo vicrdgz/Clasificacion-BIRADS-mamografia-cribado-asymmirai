@@ -1,0 +1,39 @@
+{
+  "config": "E_B_22",
+  "head": "histgb",
+  "level": "estudio",
+  "oof_auc": 0.6300843041850237,
+  "test_auc": 0.5772377396755162,
+  "mean_fold_auc": 0.635178080005151,
+  "std_fold_auc": 0.016118445250338384,
+  "fold_aucs": [
+    0.6372797327154173,
+    0.6608287977582583,
+    0.6310466849885937,
+    0.6364175243843294,
+    0.610317660179156
+  ],
+  "fold_hps": [
+    {
+      "max_leaf_nodes": 31,
+      "learning_rate": 0.1
+    },
+    {
+      "max_leaf_nodes": 31,
+      "learning_rate": 0.1
+    },
+    {
+      "max_leaf_nodes": 31,
+      "learning_rate": 0.05
+    },
+    {
+      "max_leaf_nodes": 63,
+      "learning_rate": 0.05
+    },
+    {
+      "max_leaf_nodes": 31,
+      "learning_rate": 0.1
+    }
+  ],
+  "elapsed_sec": 309.2125735282898
+}

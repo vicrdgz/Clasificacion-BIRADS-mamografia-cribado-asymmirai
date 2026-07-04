@@ -1,0 +1,37 @@
+# =============================================================
+# TFM — clasificación binaria BI-RADS con AsymMirai
+# Requisitos Python 3.11 (recomendado, probado con miniconda)
+# =============================================================
+
+# --- Core científico ---
+numpy>=1.26
+pandas>=2.0
+scipy>=1.11
+matplotlib>=3.7
+
+# --- Machine learning clásico ---
+scikit-learn>=1.5
+xgboost>=2.0
+lightgbm>=4.0
+shap>=0.45            # opcional: análisis de importancia (NB explicabilidad, no en el repo)
+
+# --- Deep learning (PyTorch con soporte CUDA) ---
+# Para CPU-only: instala desde pip directamente.
+# Para GPU CUDA 12.x, usa el comando recomendado en https://pytorch.org/get-started/locally/
+# Ejemplo: pip install torch --index-url https://download.pytorch.org/whl/cu121
+torch>=2.0
+
+# --- Lectura DICOM (necesario para extracción de features) ---
+pydicom>=2.4
+pylibjpeg>=2.0
+pylibjpeg-libjpeg>=2.0
+pylibjpeg-openjpeg>=2.0
+
+# --- Notebook / Jupyter ---
+jupyter>=1.0
+ipykernel>=6.0
+nbformat>=5.9
+notebook>=7.0
+
+# --- Utilidades ---
+tqdm>=4.65            # barras de progreso en notebooks de extracción

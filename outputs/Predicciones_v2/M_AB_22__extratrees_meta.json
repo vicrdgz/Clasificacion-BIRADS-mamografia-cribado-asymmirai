@@ -1,0 +1,39 @@
+{
+  "config": "M_AB_22",
+  "head": "extratrees",
+  "level": "mama",
+  "oof_auc": 0.6441266522042431,
+  "test_auc": 0.617250888686975,
+  "mean_fold_auc": 0.6451802502785411,
+  "std_fold_auc": 0.0366979604421243,
+  "fold_aucs": [
+    0.6829742258174584,
+    0.6159546933646252,
+    0.614152914055543,
+    0.6161835567872567,
+    0.6966358613678219
+  ],
+  "fold_hps": [
+    {
+      "n_estimators": 300,
+      "max_depth": null
+    },
+    {
+      "n_estimators": 300,
+      "max_depth": null
+    },
+    {
+      "n_estimators": 300,
+      "max_depth": null
+    },
+    {
+      "n_estimators": 500,
+      "max_depth": null
+    },
+    {
+      "n_estimators": 500,
+      "max_depth": null
+    }
+  ],
+  "elapsed_sec": 138.7060980796814
+}

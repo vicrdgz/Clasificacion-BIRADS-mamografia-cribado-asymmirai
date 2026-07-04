@@ -1,0 +1,39 @@
+{
+  "config": "E_B_gg",
+  "head": "xgb",
+  "level": "estudio",
+  "oof_auc": 0.6345082974579377,
+  "test_auc": 0.6138689159292036,
+  "mean_fold_auc": 0.6644274178865734,
+  "std_fold_auc": 0.029344891267100756,
+  "fold_aucs": [
+    0.6725224982486393,
+    0.7134863753121014,
+    0.6644752204918181,
+    0.6457581146377827,
+    0.6258948807425261
+  ],
+  "fold_hps": [
+    {
+      "max_depth": 5,
+      "learning_rate": 0.05
+    },
+    {
+      "max_depth": 3,
+      "learning_rate": 0.1
+    },
+    {
+      "max_depth": 3,
+      "learning_rate": 0.05
+    },
+    {
+      "max_depth": 3,
+      "learning_rate": 0.05
+    },
+    {
+      "max_depth": 5,
+      "learning_rate": 0.1
+    }
+  ],
+  "elapsed_sec": 64.51229286193848
+}
