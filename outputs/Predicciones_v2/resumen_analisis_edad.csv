@@ -1,0 +1,2 @@
+n_test_edad_valida,n_test_descartados,r2_sonda_edad,mae_sonda_edad_anos,pearson_sonda_edad,pearson_score_edad,spearman_score_edad,auc_global_modelo,auc_global_solo_edad,delta_global,coef_logreg_edad,intercepto_logreg_edad,auc_70plus_modelo,auc_70plus_solo_edad,delta_70plus
+869,131,0.09264133218479087,7.056520018670858,0.33618113372835945,0.16328790694960438,0.19700688031150188,0.6819660953915765,0.6312176527101994,0.050748442681377126,0.03528473977673902,-3.9290748910624003,0.9183673469387754,0.5714285714285714,0.346938775510204
