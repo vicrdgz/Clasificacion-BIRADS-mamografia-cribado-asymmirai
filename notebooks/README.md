@@ -140,8 +140,7 @@ Reproduce la Ilustración 18 de la memoria y constituye la subsección 5.7.1.
 Por defecto, los notebooks asumen que la carpeta raíz del proyecto es la carpeta padre de `notebooks/` (es decir, el directorio que contiene `notebooks/`, `src/`, `outputs/`). Esto se detecta automáticamente con:
 
 ```python
-BASE = os.environ.get('TFM_PROJECT_ROOT',
-                      os.path.abspath(os.path.join(os.getcwd(), '..')))
+BASE = os.environ.get('TFM_PROJECT_ROOT', os.path.abspath(os.path.join(os.getcwd(), '..')))
 ```
 
 Si tu estructura de carpetas es diferente o quieres apuntar a otra ubicación (por ejemplo, los datos están en otro disco), define la variable de entorno antes de abrir Jupyter:
