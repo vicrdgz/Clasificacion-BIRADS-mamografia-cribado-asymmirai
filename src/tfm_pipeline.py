@@ -1,5 +1,5 @@
 """
-tfm_pipeline_v2 — Pipeline unificado para el TFM (post-Hito 2).
+tfm_pipeline_v2 — Pipeline unificado para el TFM.
 
 Componentes:
     - Builders de las 9 cabezas con sus grids de hiperparámetros.

@@ -1,13 +1,13 @@
 modelo,pos_birads,neg_birads,n_pos,n_neg,auc_pairwise
-M_A_22+xgb agregado + Platt,4,1,73,494,0.6518218623481782
-M_A_22+xgb agregado + Platt,4,2,73,319,0.6415596684845621
-M_A_22+xgb agregado + Platt,4,3,73,91,0.5953635405690201
-M_A_22+xgb agregado + Platt,5,1,23,494,0.8420172504840697
-M_A_22+xgb agregado + Platt,5,2,23,319,0.8359002317023307
-M_A_22+xgb agregado + Platt,5,3,23,91,0.8136645962732919
-M_A_gg+mlp + Platt,4,1,76,1341,0.6586404489972133
-M_A_gg+mlp + Platt,4,2,76,467,0.6477797813591795
-M_A_gg+mlp + Platt,4,3,76,93,0.6269100169779288
-M_A_gg+mlp + Platt,5,1,23,1341,0.7959018253736666
-M_A_gg+mlp + Platt,5,2,23,467,0.7889395773205474
-M_A_gg+mlp + Platt,5,3,23,93,0.7737260402057036
+M_A_22 + xgb agregado + Platt,4,1,73,494,0.6518218623481782
+M_A_22 + xgb agregado + Platt,4,2,73,319,0.6415596684845621
+M_A_22 + xgb agregado + Platt,4,3,73,91,0.5953635405690201
+M_A_22 + xgb agregado + Platt,5,1,23,494,0.8420172504840697
+M_A_22 + xgb agregado + Platt,5,2,23,319,0.8359002317023307
+M_A_22 + xgb agregado + Platt,5,3,23,91,0.8136645962732919
+M_A_gg + mlp + Platt,4,1,76,1341,0.6586404489972133
+M_A_gg + mlp + Platt,4,2,76,467,0.6477797813591795
+M_A_gg + mlp + Platt,4,3,76,93,0.6269100169779288
+M_A_gg + mlp + Platt,5,1,23,1341,0.7959018253736666
+M_A_gg + mlp + Platt,5,2,23,467,0.7889395773205474
+M_A_gg + mlp + Platt,5,3,23,93,0.7737260402057036
