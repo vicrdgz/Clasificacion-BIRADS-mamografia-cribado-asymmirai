@@ -55,7 +55,7 @@ AsymMirai/
 # --- Salidas experimentales pesadas ---
 # Features extraidas (cientos de MB) y predicciones .npy no van al repo;
 # la trazabilidad la aporta el codigo, no los binarios.
-outputs/Features/
+outputs/Features/*.npy
 outputs/Predicciones/**/*.npy
 outputs/Plots/*.png
 
