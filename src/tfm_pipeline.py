@@ -1,21 +1,25 @@
 """
-tfm_pipeline_v2 — Pipeline unificado para el TFM.
+tfm_pipeline - Pipeline unificado para el TFM.
+
+TFM - Master Universitario en Inteligencia Artificial - VIU 2025-2026
+Victor Rodriguez Rodriguez
 
 Componentes:
-    - Builders de las 9 cabezas con sus grids de hiperparámetros.
-    - Función `holdout_grid_search`: hold-out interno 80/20 dentro del training de un fold.
-    - Función `train_fold_unified`: scaler + grid search + reentrenamiento + predicción.
-    - Función `train_kfold_unified`: aplica train_fold_unified a los 5 folds y guarda predicciones.
+    - Builders de las 9 cabezas con sus grids de hiperparametros.
+    - Funcion `holdout_grid_search`: hold-out interno 80/20 dentro del training de un fold.
+    - Funcion `train_fold_unified`: scaler + grid search + reentrenamiento + prediccion.
+    - Funcion `train_kfold_unified`: aplica train_fold_unified a los 5 folds y guarda predicciones.
 
-Filosofía:
+Filosofia:
     - StandardScaler aplicado por fold (sin leakage), sobre TODOS los modelos uniformemente.
-    - Grid search interno con hold-out estratificado 80/20 dentro del training (más rápido que CV anidada).
-    - Tras elegir los mejores hiperparámetros, REENTRENA con el training completo del fold.
+    - Grid search interno con hold-out estratificado 80/20 dentro del training
+      (mas rapido que CV anidada).
+    - Tras elegir los mejores hiperparametros, REENTRENA con el training completo del fold.
     - Misma semilla en todos los modelos (SEED=42).
     - Tratamiento del desbalance uniforme: class_weight='balanced' o pos_weight=n_neg/n_pos.
 """
 
-import os, copy, time, warnings
+import copy, time, warnings
 import numpy as np
 import torch
 import torch.nn as nn
@@ -99,8 +103,8 @@ def train_logreg(X_tr, y_tr, X_val, y_val, X_test, hparams, penalty):
     """
     LogReg con penalty='l1', 'l2' o 'elasticnet'.
     Solver elegido por velocidad y robustez según la penalty:
-      - L1:        saga con tol=5e-3 (liblinear era inestable en alta dim con estos datos)
-      - L2:        lbfgs (rápido y robusto)
+      - L1: saga con tol=5e-3 (liblinear era inestable en alta dim con estos datos)
+      - L2: lbfgs (rápido y robusto)
       - ElasticNet: saga con tol=1e-3 (única opción que soporta EN)
     """
     if penalty == 'l1':
@@ -178,23 +182,19 @@ def train_lgbm(X_tr, y_tr, X_val, y_val, X_test, hparams):
         num_leaves=hparams['num_leaves'], learning_rate=hparams['learning_rate'],
         n_estimators=300, scale_pos_weight=_spw(y_tr),
         random_state=SEED, n_jobs=-1, verbosity=-1)
-    clf.fit(X_tr, y_tr, eval_set=[(X_val, y_val)], eval_metric='auc',
-            callbacks=[lgb.early_stopping(30, verbose=False)])
+    clf.fit(X_tr, y_tr, eval_set=[(X_val, y_val)], eval_metric='auc', callbacks=[lgb.early_stopping(30, verbose=False)])
     val_p  = clf.predict_proba(X_val)[:, 1]
     test_p = clf.predict_proba(X_test)[:, 1] if X_test is not None else None
     return val_p, test_p, roc_auc_score(y_val, val_p), clf
 
 
-def train_mlp(X_tr, y_tr, X_val, y_val, X_test, hparams,
-              device='cuda', max_epochs=120, batch_size=128, lr=1e-3,
-              weight_decay=1e-4, patience=15):
-    Xt  = torch.from_numpy(X_tr).float()
-    yt  = torch.from_numpy(y_tr).float().unsqueeze(1)
-    Xv  = torch.from_numpy(X_val).float().to(device)
+def train_mlp(X_tr, y_tr, X_val, y_val, X_test, hparams, device='cuda', max_epochs=120, batch_size=128, lr=1e-3, weight_decay=1e-4, patience=15):
+    Xt = torch.from_numpy(X_tr).float()
+    yt = torch.from_numpy(y_tr).float().unsqueeze(1)
+    Xv = torch.from_numpy(X_val).float().to(device)
     Xte = torch.from_numpy(X_test).float().to(device) if X_test is not None else None
 
-    model = MLPHead(in_dim=X_tr.shape[1], hidden=hparams['hidden'],
-                    dropout=hparams['dropout']).to(device)
+    model = MLPHead(in_dim=X_tr.shape[1], hidden=hparams['hidden'], dropout=hparams['dropout']).to(device)
     pos_weight = torch.tensor([_spw(y_tr)], device=device)
     criterion = nn.BCEWithLogitsLoss(pos_weight=pos_weight)
     optimizer = torch.optim.Adam(model.parameters(), lr=lr, weight_decay=weight_decay)
@@ -281,8 +281,7 @@ def holdout_grid_search(head_name, X_tr, y_tr, mlp_device='cuda'):
 # ENTRENAMIENTO DE UN FOLD CON PROTOCOLO UNIFICADO
 # ============================================================================
 
-def train_fold_unified(head_name, X_tr, y_tr, X_val, y_val, X_test,
-                       mlp_device='cuda'):
+def train_fold_unified(head_name, X_tr, y_tr, X_val, y_val, X_test, mlp_device='cuda'):
     """
     Pipeline completo por fold:
     1. StandardScaler ajustado en X_tr
@@ -310,8 +309,7 @@ def train_fold_unified(head_name, X_tr, y_tr, X_val, y_val, X_test,
 # KFOLD UNIFICADO
 # ============================================================================
 
-def train_kfold_unified(head_name, X, y, is_train, is_test, groups=None,
-                         n_splits=5, mlp_device='cuda', verbose=True):
+def train_kfold_unified(head_name, X, y, is_train, is_test, groups=None, n_splits=5, mlp_device='cuda', verbose=True):
     """
     Aplica train_fold_unified a los 5 folds.
     Si groups se pasa, usa StratifiedGroupKFold (necesario a nivel mama).
@@ -346,16 +344,16 @@ def train_kfold_unified(head_name, X, y, is_train, is_test, groups=None,
         fold_aucs.append(val_auc)
         fold_hps.append(best_hp)
         if verbose:
-            print(f'    fold {fold}: val_AUC={val_auc:.4f}  hp={best_hp}  ({time.time()-t0:.1f}s)')
+            print(f'fold {fold}: val_AUC={val_auc:.4f} hp={best_hp} ({time.time()-t0:.1f}s)')
 
     oof_auc  = roc_auc_score(y_tr_pool, oof_preds)
     test_ens = test_preds.mean(axis=0)
     test_auc = roc_auc_score(y_te_pool, test_ens)
 
     if verbose:
-        print(f'    → fold AUCs: {[f"{a:.4f}" for a in fold_aucs]}')
-        print(f'    → mean fold AUC: {np.mean(fold_aucs):.4f}  (std {np.std(fold_aucs):.4f})')
-        print(f'    → OOF AUC: {oof_auc:.4f}     Test AUC: {test_auc:.4f}')
+        print(f'-> fold AUCs: {[f"{a:.4f}" for a in fold_aucs]}')
+        print(f'-> mean fold AUC: {np.mean(fold_aucs):.4f}  (std {np.std(fold_aucs):.4f})')
+        print(f'-> OOF AUC: {oof_auc:.4f}     Test AUC: {test_auc:.4f}')
 
     return {
         'oof_preds': oof_preds, 'test_preds': test_ens,

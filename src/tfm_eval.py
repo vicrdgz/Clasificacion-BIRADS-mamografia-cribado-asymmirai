@@ -1,17 +1,20 @@
 """
-tfm_eval_v2 — Funciones de evaluación para el TFM post-Hito 2.
+tfm_eval - Funciones de evaluacion para el TFM.
+
+TFM - Master Universitario en Inteligencia Artificial - VIU 2025-2026
+Victor Rodriguez Rodriguez
 
 Componentes:
-    - bootstrap_metric_ci: IC 95% por bootstrap percentil para cualquier métrica.
+    - bootstrap_metric_ci: IC 95% por bootstrap percentil para cualquier metrica.
     - ece_score: Expected Calibration Error.
     - delong_test: test pareado de DeLong para comparar dos AUCs sobre los mismos datos.
     - aggregate_breast_to_study: agregar predicciones a nivel mama hacia nivel estudio.
+    - compute_full_metrics: bloque de metricas (AUC, AP, Brier, ECE) con IC bootstrap.
 
 Todas las funciones operan sobre arrays numpy de y_true (0/1) y y_pred (probabilidades).
 """
 
 import numpy as np
-import pandas as pd
 from sklearn.metrics import roc_auc_score, average_precision_score, brier_score_loss
 import scipy.stats as st
 
@@ -168,7 +171,7 @@ def delong_test(y_true, pred_a, pred_b):
 
 
 # ============================================================================
-# AGREGACIÓN MAMA → ESTUDIO
+# AGREGACIÓN MAMA -> ESTUDIO
 # ============================================================================
 
 def aggregate_breast_to_study(pred_breast, study_ids, agg='max'):
@@ -212,7 +215,7 @@ def compute_full_metrics(y_true, y_pred, n_boot=1000, seed=SEED):
     Devuelve dict con las métricas.
     """
     auc, auc_lo, auc_hi = bootstrap_metric_ci(y_true, y_pred, roc_auc_score, n_boot=n_boot, seed=seed)
-    ap, ap_lo, ap_hi    = bootstrap_metric_ci(y_true, y_pred, average_precision_score, n_boot=n_boot, seed=seed)
+    ap, ap_lo, ap_hi = bootstrap_metric_ci(y_true, y_pred, average_precision_score, n_boot=n_boot, seed=seed)
     brier = brier_score_loss(y_true, y_pred)
     ece = ece_score(y_true, y_pred)
     return {
