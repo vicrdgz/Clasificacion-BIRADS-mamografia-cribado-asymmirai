@@ -1,11 +1,10 @@
-# TFM - Clasificacion binaria BI-RADS sobre mamografia de cribado
+# TFM - Cribado de mamografías a partir de representaciones latentes de AsymMirai
 
 **Trabajo Fin de Master en Inteligencia Artificial - Universidad Internacional de Valencia (VIU)**
 
 - Autor: Victor Rodriguez Rodriguez
 - Directora: Karen Lopez-Linares
 - Defensa: julio de 2026
-- Titulo oficial: *"Cribado de mamografías a partir de representaciones latentes de AsymMirai"*
 
 ---
 
