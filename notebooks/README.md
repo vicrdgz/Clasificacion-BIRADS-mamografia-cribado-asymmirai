@@ -45,7 +45,7 @@ Re-extracción con **pool adaptativo 2 x 2** (AdaptiveAvg + AdaptiveMax). Preser
 Protocolo por configuración: `StratifiedKFold` (estudio) o `StratifiedGroupKFold` (mama) con K=5, hold-out interno 80/20 para grid search, reentrenamiento con el training pool completo, predicción OOF + ensemble sobre test.
 
 **Inputs**: `X_view.npy`, `X_asym.npy`, `X_view_22.npy`, `X_asym_22.npy`, `metadata.csv`.
-**Outputs**: en `outputs/Predicciones_v2/`, por cada corrida `{config}__{head}_oof.npy`, `_test.npy`, `_meta.json`; al final, `resumen_v2.csv`.
+**Outputs**: en `outputs/Predicciones/`, por cada corrida `{config}__{head}_oof.npy`, `_test.npy`, `_meta.json`; al final, `resumen.csv`.
 
 ## `10_evaluacion_v2.ipynb`
 Análisis detallado sobre las 84 corridas:
@@ -58,7 +58,7 @@ Análisis detallado sobre las 84 corridas:
 - Curvas ROC y PR del top 5.
 
 **Inputs**: predicciones de NB09, `metadata.csv`, `breast-level_annotations.csv` (para BI-RADS por vista y edad DICOM).
-**Outputs**: en `outputs/Predicciones_v2/`: `eval_completo_v2.csv`, `delong_pareado_v2.csv`, `eval_densidad_v2.csv`, `eval_edad_v2.csv`, `auc_pairwise_birads.csv`, `eval_densidad_modelo_final.csv`, `eval_edad_modelo_final.csv`, `matrices_confusion_modelo_final.csv`, `post_hoc_mama_to_estudio.csv`. Figuras PNG en `outputs/Plots/`.
+**Outputs**: en `outputs/Predicciones/`: `eval_completo_v2.csv`, `delong_pareado.csv`, `eval_densidad.csv`, `eval_edad.csv`, `auc_pairwise_birads.csv`, `eval_densidad_modelo_final.csv`, `eval_edad_modelo_final.csv`, `matrices_confusion_modelo_final.csv`, `post_hoc_mama_to_estudio.csv`. Figuras PNG en `outputs/Plots/`.
 
 ## `11_fusion_densidad_v2.ipynb`
 Fusión con densidad mamaria a nivel estudio: los 3 mejores candidatos del NB09 se agregan con `max(L,R)` y luego se combinan con la densidad codificada como one-hot (5 features totales).
@@ -148,4 +148,4 @@ set TFM_PROJECT_ROOT=D:\datos\tfm
 00 -> 01 -> 02 -> 03 -> 08 -> 09 -> 10 -> 11 -> 11b -> 11c -> 12 -> 13 -> 14
 ```
 
-NB09 es el paso más costoso (5-8 h). El resto del pipeline se ejecuta en minutos si los archivos de features (`X_view.npy`, `X_asym.npy`, `X_view_22.npy`, `X_asym_22.npy`) y las predicciones de `outputs/Predicciones_v2/` ya existen.
+NB09 es el paso más costoso (5-8 h). El resto del pipeline se ejecuta en minutos si los archivos de features (`X_view.npy`, `X_asym.npy`, `X_view_22.npy`, `X_asym_22.npy`) y las predicciones de `outputs/Predicciones/` ya existen.
