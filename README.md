@@ -37,25 +37,24 @@ El pipeline usa validacion cruzada de 5 folds con `StratifiedGroupKFold` a nivel
 │   ├── 01_inspeccion_modelo.ipynb
 │   ├── 02_extraccion_un_estudio.ipynb
 │   ├── 03_extraccion_masiva.ipynb
-│   ├── 08_extraccion_pool22.ipynb
-│   ├── 09_pipeline_unificado.ipynb
-│   ├── 10_evaluacion_v2.ipynb
-│   ├── 11_fusion_densidad_v2.ipynb
-│   ├── 11b_fusion_densidad_mama.ipynb
-│   ├── 11c_fusion_densidad_exhaustivo.ipynb
-│   ├── 12_calibracion_posthoc.ipynb
-│   ├── 13_ejemplos_birads.ipynb
-│   └── 14_analisis_sonda_edad.ipynb
+│   ├── 04_extraccion_pool22.ipynb
+│   ├── 05_pipeline_unificado.ipynb
+│   ├── 06_evaluacion.ipynb
+│   ├── 07_fusion_densidad.ipynb
+│   ├── 07b_fusion_densidad_mama.ipynb
+│   ├── 07c_fusion_densidad_exhaustivo.ipynb
+│   ├── 08_calibracion_posthoc.ipynb
+│   ├── 09_ejemplos_birads.ipynb
+│   └── 10_analisis_sonda_edad.ipynb
 ├── src/
 │   ├── tfm_pipeline.py      # Builders de las 9 cabezas, grid search, KFold unificado
 │   └── tfm_eval.py          # Bootstrap, DeLong, ECE, agregacion mama a estudio
 └── outputs/                 # Resultados generados por los notebooks
-    ├── Features/            # Features extraidas por NB03 y NB08 (no versionadas)
+    ├── Features/            # Features extraidas por NB03 y NB04 (no versionadas)
     ├── Predicciones/        # Predicciones OOF y test, metricas y CSVs de evaluacion
     └── Plots/               # Figuras de la memoria
 ```
-
-La numeracion de los notebooks no es correlativa: los huecos corresponden a exploraciones intermedias descartadas antes de la entrega. El orden de ejecucion esta documentado en `notebooks/README.md`.
+El orden de ejecucion esta documentado en `notebooks/README.md`.
 
 ## Requisitos
 
@@ -71,7 +70,7 @@ Dependencias en `requirements.txt`.
 Ni el dataset ni los pesos preentrenados se incluyen en el repositorio:
 
 - **VinDr-Mammo** (~5.000 estudios DICOM): descarga desde [PhysioNet](https://physionet.org/content/vindr-mammo/1.0.0/) tras aceptar el DUA correspondiente.
-- **Snapshot de AsymMirai** (`trained_asymmirai.pt`, ~46 MB): disponible en el [repositorio oficial](https://github.com/pgmikhael/AsymMirai).
+- **Snapshot de AsymMirai** (`trained_asymmirai.pt`, ~46 MB): disponible en el [repositorio oficial](https://github.com/jdonnelly36/AsymMirai).
 
 Estructura esperada de rutas por defecto (la raiz se autodetecta como la carpeta padre de `notebooks/`, o se sobrescribe con la variable de entorno `TFM_PROJECT_ROOT`):
 
@@ -109,14 +108,14 @@ pip install -r requirements.txt
 # 4. Ejecutar los notebooks en el orden indicado en notebooks/README.md
 ```
 
-El pipeline completo desde cero tarda aproximadamente 12 horas en hardware similar al descrito, dominado por NB09 (5-8 h). Si las features ya estan extraidas, el resto del pipeline se completa en menos de una hora.
+El pipeline completo desde cero tarda aproximadamente 12 horas en hardware similar al descrito, dominado por NB05. Si las features ya estan extraidas, el resto del pipeline se completa en menos de una hora.
 
 ## Citacion
 
 ```bibtex
 @mastersthesis{rodriguez2026tfm,
   author = {Rodriguez Rodriguez, Victor},
-  title  = {Modelos de Riesgo de Cancer de Mama a partir de Mamografia de Cribado},
+  title  = {Cribado de mamografías a partir de representaciones latentes de AsymMirai},
   school = {Universidad Internacional de Valencia (VIU)},
   year   = {2026},
   type   = {Trabajo Fin de Master en Inteligencia Artificial}

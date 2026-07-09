@@ -28,13 +28,13 @@ Extracción masiva de features con GAP + GMP sobre los 5.000 estudios de VinDr-M
 **Inputs**: `Data/vindr-mammo/breast-level_annotations.csv`, DICOMs en `Data/vindr-mammo/images/`, `AsymMirai/snapshots/trained_asymmirai.pt`.
 **Outputs**: `outputs/Features/X_view.npy` `(4999, 4, 1024)`, `X_asym.npy` `(4999, 2, 1024)`, `metadata.csv`, `done_studies.txt`, `caracterizacion_dataset.png`.
 
-## `08_extraccion_pool22.ipynb`
+## `04_extraccion_pool22.ipynb`
 Re-extracción con **pool adaptativo 2 x 2** (AdaptiveAvg + AdaptiveMax). Preserva información espacial gruesa: cada vista pasa de 1024 dims (GAP + GMP) a 4096 dims (2 x 2 x 2). Misma lógica de reanudación que NB03.
 
 **Inputs**: mismos que NB03 + `metadata.csv` producido por NB03 (opcional, se reutiliza).
 **Outputs**: `outputs/Features/X_view_22.npy` `(4999, 4, 4096)`, `X_asym_22.npy` `(4999, 2, 4096)`, `done_studies_22.txt`.
 
-## `09_pipeline_unificado.ipynb`
+## `05_pipeline_unificado.ipynb`
 **Núcleo experimental del TFM.** Entrena **84 modelos base**:
 
 - **10 configuraciones** = 5 inputs × 2 poolings.
@@ -47,7 +47,7 @@ Protocolo por configuración: `StratifiedKFold` (estudio) o `StratifiedGroupKFol
 **Inputs**: `X_view.npy`, `X_asym.npy`, `X_view_22.npy`, `X_asym_22.npy`, `metadata.csv`.
 **Outputs**: en `outputs/Predicciones/`, por cada corrida `{config}__{head}_oof.npy`, `_test.npy`, `_meta.json`; al final, `resumen.csv`.
 
-## `10_evaluacion_v2.ipynb`
+## `06_evaluacion.ipynb`
 Análisis detallado sobre las 84 corridas:
 
 - Métricas con IC 95 % bootstrap: AUC, AP, Brier, ECE.
@@ -57,34 +57,34 @@ Análisis detallado sobre las 84 corridas:
 - Análisis post-hoc de agregación mama a estudio.
 - Curvas ROC y PR del top 5.
 
-**Inputs**: predicciones de NB09, `metadata.csv`, `breast-level_annotations.csv` (para BI-RADS por vista y edad DICOM).
-**Outputs**: en `outputs/Predicciones/`: `eval_completo_v2.csv`, `delong_pareado.csv`, `eval_densidad.csv`, `eval_edad.csv`, `auc_pairwise_birads.csv`, `eval_densidad_modelo_final.csv`, `eval_edad_modelo_final.csv`, `matrices_confusion_modelo_final.csv`, `post_hoc_mama_to_estudio.csv`. Figuras PNG en `outputs/Plots/`.
+**Inputs**: predicciones de NB05, `metadata.csv`, `breast-level_annotations.csv` (para BI-RADS por vista y edad DICOM).
+**Outputs**: en `outputs/Predicciones/`: `eval_completo.csv`, `delong_pareado.csv`, `eval_densidad.csv`, `eval_edad.csv`, `auc_pairwise_birads.csv`, `eval_densidad_modelo_final.csv`, `eval_edad_modelo_final.csv`, `matrices_confusion_modelo_final.csv`, `post_hoc_mama_to_estudio.csv`. Figuras PNG en `outputs/Predicciones/`.
 
-## `11_fusion_densidad_v2.ipynb`
-Fusión con densidad mamaria a nivel estudio: los 3 mejores candidatos del NB09 se agregan con `max(L,R)` y luego se combinan con la densidad codificada como one-hot (5 features totales).
+## `07_fusion_densidad.ipynb`
+Fusión con densidad mamaria a nivel estudio: los 3 mejores candidatos del NB05 se agregan con `max(L,R)` y luego se combinan con la densidad codificada como one-hot (5 features totales).
 
 3 candidatos x 3 modelos de fusión (LogReg, HistGB, MLP) = 9 modelos.
 
-**Inputs**: predicciones NB09 de los 3 candidatos base.
+**Inputs**: predicciones NB05 de los 3 candidatos base.
 **Outputs**: `fusion_resultados.csv`, `fusion_curvas_roc.png`, `fusion_densidad/{candidato}__fuse_{modelo}_test.npy`.
 
-## `11b_fusion_densidad_mama.ipynb`
-Fusión con densidad a nivel mama (antes de agregar). Complementa NB11 permitiendo responder si el resultado observado es robusto al nivel donde se aplica la fusión.
+## `07b_fusion_densidad_mama.ipynb`
+Fusión con densidad a nivel mama (antes de agregar). Complementa NB07 permitiendo responder si el resultado observado es robusto al nivel donde se aplica la fusión.
 
-**Inputs**: predicciones NB09 de los 3 candidatos base (nivel mama, sin agregar).
+**Inputs**: predicciones NB05 de los 3 candidatos base (nivel mama, sin agregar).
 **Outputs**: `fusion_resultados_mama.csv`, `fusion_resultados_mama_agregadas.csv`, `fusion_mama_curvas_roc.png`, `fusion_densidad_mama/*.npy`.
 
-## `11c_fusion_densidad_exhaustivo.ipynb`
-Evaluación exhaustiva de la fusión con densidad sobre las 36 configuraciones base a nivel mama (4 configs × 9 cabezas) × 3 modelos de fusión = 108 modelos. Cierra cualquier sospecha de selección sesgada de candidatos en NB11 y NB11b.
+## `07c_fusion_densidad_exhaustivo.ipynb`
+Evaluación exhaustiva de la fusión con densidad sobre las 36 configuraciones base a nivel mama (4 configs × 9 cabezas) × 3 modelos de fusión = 108 modelos. Cierra cualquier sospecha de selección sesgada de candidatos en NB07 y NB07b.
 
 Análisis agregados por cabeza base, pooling, input y modelo de fusión.
 
 Hallazgo principal: 2/108 fusiones con mejora estadísticamente significativa; 20/108 con empeoramiento significativo.
 
-**Inputs**: predicciones NB09 a nivel mama (36 corridas), `resumen_v2.csv`.
+**Inputs**: predicciones NB05 a nivel mama (36 corridas), `resumen.csv`.
 **Outputs**: `fusion_exhaustivo_mama.csv` (144 filas), `fusion_exhaustivo_resumen.csv`, `fusion_exhaustivo_top10.png`, `fusion_exhaustivo_mama/*.npy` (108 predicciones).
 
-## `12_calibracion_posthoc.ipynb`
+## `08_calibracion_posthoc.ipynb`
 Calibración Platt scaling e isotónica sobre los dos modelos finales:
 
 1. `M_A_22 + xgb` agregado a estudio - modelo triaje recomendado.
@@ -94,10 +94,10 @@ Métricas antes/después + DeLong para verificar preservación del AUC + reliabi
 
 Método recomendado en ambos casos: Platt (preserva AUC, minimiza ECE).
 
-**Inputs**: predicciones NB09 de `M_A_22__xgb` y `M_A_gg__mlp`.
+**Inputs**: predicciones NB05 de `M_A_22__xgb` y `M_A_gg__mlp`.
 **Outputs**: `calibracion_resultados.csv`, `calibracion_tabla_memoria.csv`, `calibracion_reliability.png`, `calibracion_predicciones/*.npy`.
 
-## `13_ejemplos_birads.ipynb`
+## `09_ejemplos_birads.ipynb`
 Genera las dos figuras ilustrativas:
 
 - Figura 1×5 con un ejemplo real de cada categoría BI-RADS (1 a 5), con bounding box superpuesto en las categorías sospechosas.
@@ -106,7 +106,7 @@ Genera las dos figuras ilustrativas:
 **Inputs**: `breast-level_annotations.csv`, `finding_annotations.csv`, DICOMs de `Data/vindr-mammo/images/`.
 **Outputs**: `outputs/Features/ejemplos_birads.png`, `outputs/Features/mamografia_4_vistas.png`.
 
-## `14_analisis_sonda_edad.ipynb`
+## `10_analisis_sonda_edad.ipynb`
 Análisis complementario que responde a la pregunta: ¿predice el modelo la edad implícitamente? Tres análisis:
 
 1. **Sonda lineal** PCA(200) + Ridge sobre las features `M_A_22` para predecir edad.
@@ -114,8 +114,8 @@ Análisis complementario que responde a la pregunta: ¿predice el modelo la edad
 3. **Base rate + clasificador trivial** "solo edad" (LogReg con edad como única covariable) comparado con el modelo final por rango de edad.
 
 
-**Inputs**: `X_view_22.npy`, `X_asym_22.npy`, `metadata.csv`, scores calibrados del NB12, `breast-level_annotations.csv` (para edad DICOM).
-**Outputs**: `resumen_analisis_edad.csv` y 3 figuras PNG en `outputs/Plots/`.
+**Inputs**: `X_view_22.npy`, `X_asym_22.npy`, `metadata.csv`, scores calibrados del NB08, `breast-level_annotations.csv` (para edad DICOM).
+**Outputs**: `resumen_analisis_edad.csv`, `resumen_analisis_edad.csv` y 3 figuras PNG en `outputs/Plots/`.
 
 ---
 
@@ -145,7 +145,7 @@ set TFM_PROJECT_ROOT=D:\datos\tfm
 ## Orden de ejecución recomendado
 
 ```
-00 -> 01 -> 02 -> 03 -> 08 -> 09 -> 10 -> 11 -> 11b -> 11c -> 12 -> 13 -> 14
+00 -> 01 -> 02 -> 03 -> 04 -> 05 -> 06 -> 07 -> 07b -> 07c -> 08 -> 09 -> 10
 ```
 
-NB09 es el paso más costoso (5-8 h). El resto del pipeline se ejecuta en minutos si los archivos de features (`X_view.npy`, `X_asym.npy`, `X_view_22.npy`, `X_asym_22.npy`) y las predicciones de `outputs/Predicciones/` ya existen.
+NB05 es el paso más costoso. El resto del pipeline se ejecuta en minutos si los archivos de features (`X_view.npy`, `X_asym.npy`, `X_view_22.npy`, `X_asym_22.npy`) y las predicciones de `outputs/Predicciones/` ya existen.
